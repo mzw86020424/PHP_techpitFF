@@ -3,7 +3,7 @@
 class Human {
   const MAX_HIT_POINT = 100;
   public $name;
-  public $hitPoint = 100;
+  public $hitPoint = self::MAX_HIT_POINT;
   public $attackPoint = 20;
 
   public function doAttack($enemy) {
