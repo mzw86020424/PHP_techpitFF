@@ -7,9 +7,10 @@ class Enemy
   private $hitPoint = self::MAX_HIT_POINT;
   private $attackPoint = 10;
 
-  public function __construct($name)
+  public function __construct($name, $attackPoint)
   {
     $this->name = $name;
+    $this->attackPoint = $attackPoint;
   }
 
   public function getName()
