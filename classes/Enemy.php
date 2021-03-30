@@ -38,7 +38,7 @@ class Enemy
     $human = $humans[$humanIndex];
 
     echo "『".$this->getName()."』の攻撃！\n";
-    echo "【".$human->getName()."】に".$this->getAttackPoint()."のダメージ！\n";
+    echo "【".$human->getName()."】に".$this->getAttackPoint()."のダメージ！\n\n";
     $human->tookDamage($this->getAttackPoint());
   }
 
