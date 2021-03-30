@@ -1,0 +1,88 @@
+<?php
+class Lives
+{
+  private $name;
+  private $hitPoint;
+  private $attackPoint;
+  private $intelligence;
+
+  public function __construct($name, $hitPoint = 50, $attackPoint = 10, $intelligence = 0)
+  {
+    $this->name = $name;
+    $this->hitPoint = $hitPoint;
+    $this->attackPoint = $attackPoint;
+    $this->intelligence = $intelligence;
+  }
+  // ゲッター
+  public function getName()
+  {
+    return $this->name;
+  }
+
+  public function getHitPoint()
+  {
+    $result = $this->hitPoint;
+    if ($result < 0) {
+      $result = 0;
+    }
+    return $result;
+  }
+
+  // セッター
+  public function tookDamage($damage)
+  {
+    $this->hitPoint -= $damage;
+    if ($this->hitPoint < 0) {
+      $this->hitPoint = 0;
+    }
+  }
+
+  public function recoveryDamage($heal, $target)
+  {
+    $this->hitPoint += $heal;
+    if ($this->hitPoint > $target::MAX_HIT_POINT) {
+      $this->hitPoint = $target::MAX_HIT_POINT;
+    }
+  }
+
+  // 攻撃
+  public function doAttack($targets)
+  {
+    if (!$this->isEnableAttack($targets)) {
+      return false;
+    }
+    $target = $this->selectTarget($targets);
+    
+    echo "『" .$this->name . "』の攻撃！\n";
+    echo "【" . $target->getName() . "】に " . $this->attackPoint . " のダメージ！ \n";
+    $target->tookDamage($this->attackPoint);
+    return true;
+  }
+
+  // 判定
+  public function isEnableAttack($targets)
+  {
+    if ($this->hitPoint <= 0) {
+      return false;
+    }
+    $isAllDie = true;
+    foreach ($targets as $target) {
+      if ($target->getHitPoint() > 0) {
+        $isAllDie = false;
+      }
+      if ($isAllDie) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  public function selectTarget($targets)
+  {
+    $target = $targets[rand(0, count($targets)-1)];
+    while ($target->getHitPoint() <= 0) {
+      $target = $targets[rand(0, count($targets)-1)];
+    }
+    return $target;
+  }
+}

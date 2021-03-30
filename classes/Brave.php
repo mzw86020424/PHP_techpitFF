@@ -7,25 +7,24 @@ class Brave extends Human
   private $attackPoint = 30;
 
   public function __construct($name)
-  {
+  { 
     parent::__construct($name, $this->hitPoint, $this->attackPoint);
   }
 
   public function doAttack($enemies)
-  {
-    if ($this->getHitPoint() <= 0) {
+  { 
+    if (!$this->isEnableAttack($enemies)) {
       return false;
     }
 
-    $enemyIndex = rand(0, count($enemies)-1);
-    $enemy = $enemies[$enemyIndex];
-
+    $enemy = $this->selectTarget($enemies);
+    
     if (rand(1,3) == 1) {
       // スキルの発動
       echo "『" .$this->getName() . "』のスキルが発動した！\n";
       echo "『ぜんりょくぎり』！！\n";
-      echo $enemy->getName() . " に " . $this->getAttackPoint() * 1.5 . " のダメージ！\n";
-      $enemy->tookDamage($this->getAttackPoint() * 1.5);
+      echo $enemy->getName() . " に " . $this->attackPoint * 1.5 . " のダメージ！\n";
+      $enemy->tookDamage($this->attackPoint * 1.5);
     } else {
       parent::doAttack($enemies);
     }
